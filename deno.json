@@ -1,4 +1,5 @@
 {
+  "lint": { "rules": { "tags": ["jsr"] } },
   "imports": {
     "@std/expect": "jsr:@std/expect@1"
   }

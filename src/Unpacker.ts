@@ -1,4 +1,4 @@
-import { Bit } from "./Bit.ts";
+import type { Bit } from "./Bit.ts";
 import { getFloat, getInt, getUint } from "./bitMethods.ts";
 
 export default class Unpacker {
