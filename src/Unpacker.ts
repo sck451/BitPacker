@@ -1,10 +1,16 @@
 import type { Bit } from "./Bit.ts";
 import { getFloat, getInt, getUint } from "./bitMethods.ts";
 
+/**
+ * Unpacks an array of u8 numbers.
+ */
 export default class Unpacker {
   private readonly bits: Bit[] = [];
   private readonly bytes: number[];
 
+  /**
+   * @param bytes An array of u8 numbers or a Uint8Array to unpack
+   */
   constructor(bytes: number[] | Uint8Array) {
     this.bytes = [...bytes];
   }
@@ -21,6 +27,10 @@ export default class Unpacker {
     }
   }
 
+  /**
+   * Read and consume a single bit from the front of the stack
+   * @returns Bit, the 1 or 0 at the top of the stack
+   */
   readBit(): Bit {
     if (this.bits.length === 0) {
       this.unpackByte();
@@ -35,46 +45,93 @@ export default class Unpacker {
     return bit;
   }
 
+  /**
+   * Read and consume a finite number of bits from the front of the stack
+   * @param n The number of bits to read
+   * @returns An array of Bits (0s and 1s)
+   */
   readBits(n: number): Bit[] {
     return Array.from({ length: n }, () => this.readBit());
   }
 
+  /**
+   * Read and consume 8 bits from the front of the stack and parse them as an 8-bit integer
+   * @returns The first 8 bits as an integer
+   */
   readUint8(): number {
     return getUint(this.readBits(8));
   }
 
+  /**
+   * Read and consume 16 bits from the front of the stack and parse them as a 16-bit integer
+   * @returns The first 16 bits as an integer
+   */
   readUint16(): number {
     return getUint(this.readBits(16));
   }
 
+  /**
+   * Read and consume 32 bits from the front of the stack and parse them as a 32-bit integer
+   * @returns The first 32 bits as an integer
+   */
   readUint32(): number {
     return getUint(this.readBits(32));
   }
 
+  /**
+   * Read and consume 8 bits from the front of the stack and parse them as an 8-bit signed integer
+   * @returns The first 8 bits as a signed integer
+   */
   readInt8(): number {
     return getInt(this.readBits(8));
   }
 
+  /**
+   * Read and consume 16 bits from the front of the stack and parse them as a 16-bit signed integer
+   * @returns The first 16 bits as a signed integer
+   */
   readInt16(): number {
     return getInt(this.readBits(16));
   }
 
+  /**
+   * Read and consume 32 bits from the front of the stack and parse them as a 32-bit signed integer
+   * @returns The first 32 bits as a signed integer
+   */
   readInt32(): number {
     return getInt(this.readBits(32));
   }
 
+  /**
+   * Read and consume 32 bits from the front of the stack and parse them as a 32-bit float. Most Javascript numbers should be interpreted as 64-bit floats instead
+   * @returns The first 32 bits as a float
+   */
   readFloat32(): number {
     return getFloat(this.readBits(32));
   }
 
+  /**
+   * Read and consume 64 bits from the front of the stack and parse them as a 64-bit float
+   * @returns The first 64 bits as a float
+   */
   readFloat64(): number {
     return getFloat(this.readBits(64));
   }
 
+  /**
+   * Read and consume a specified number of bytes from the front of the stack, returning them as an array of 8-bit integers
+   * @param n The number of bytes to return
+   * @returns An array of bytes
+   */
   readBytes(n: number): number[] {
     return Array.from({ length: n }, () => this.readUint8());
   }
 
+  /**
+   * Get the first `n` bits from the front of the stack without consuming them
+   * @param n The number of bits to retrieve
+   * @returns An array of Bits (0s and 1s)
+   */
   peek(n: number): Bit[] {
     while (this.bits.length < n) {
       if (this.bytes.length === 0) {
