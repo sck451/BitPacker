@@ -22,7 +22,13 @@ mutable/consuming. This is done for memory use reasons.
 ## Installation
 
 ```sh
-deno add path/to/bitpack.ts
+deno add jsr:@sck/bitpacker
+npx jsr add @sck/bitpacker
+bunx jsr add @sck/bitpacker
+```
+
+```ts
+import { Packer, Unpacker } from "@sck/bitpacker";
 ```
 
 ## Use
