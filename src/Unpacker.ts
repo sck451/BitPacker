@@ -30,6 +30,7 @@ export default class Unpacker {
   /**
    * Read and consume a single bit from the front of the stack
    * @returns Bit, the 1 or 0 at the top of the stack
+   * @throws Error if called when no data remains
    */
   readBit(): Bit {
     if (this.bits.length === 0) {
@@ -49,6 +50,7 @@ export default class Unpacker {
    * Read and consume a finite number of bits from the front of the stack
    * @param n The number of bits to read
    * @returns An array of Bits (0s and 1s)
+   * @throws Error if called when `n` is greater than the bits remaining on the stack
    */
   readBits(n: number): Bit[] {
     return Array.from({ length: n }, () => this.readBit());
@@ -57,6 +59,7 @@ export default class Unpacker {
   /**
    * Read and consume 8 bits from the front of the stack and parse them as an 8-bit integer
    * @returns The first 8 bits as an integer
+   * @throws Error if called with fewer than 8 bits remaining on the stack
    */
   readUint8(): number {
     return getUint(this.readBits(8));
@@ -65,6 +68,7 @@ export default class Unpacker {
   /**
    * Read and consume 16 bits from the front of the stack and parse them as a 16-bit integer
    * @returns The first 16 bits as an integer
+   * @throws Error if called with fewer than 16 bits remaining on the stack
    */
   readUint16(): number {
     return getUint(this.readBits(16));
@@ -73,6 +77,7 @@ export default class Unpacker {
   /**
    * Read and consume 32 bits from the front of the stack and parse them as a 32-bit integer
    * @returns The first 32 bits as an integer
+   * @throws Error if called with fewer than 32 bits remaining on the stack
    */
   readUint32(): number {
     return getUint(this.readBits(32));
@@ -81,6 +86,7 @@ export default class Unpacker {
   /**
    * Read and consume 8 bits from the front of the stack and parse them as an 8-bit signed integer
    * @returns The first 8 bits as a signed integer
+   * @throws Error if called with fewer than 8 bits remaining on the stack
    */
   readInt8(): number {
     return getInt(this.readBits(8));
@@ -89,6 +95,7 @@ export default class Unpacker {
   /**
    * Read and consume 16 bits from the front of the stack and parse them as a 16-bit signed integer
    * @returns The first 16 bits as a signed integer
+   * @throws Error if called with fewer than 16 bits remaining on the stack
    */
   readInt16(): number {
     return getInt(this.readBits(16));
@@ -97,6 +104,7 @@ export default class Unpacker {
   /**
    * Read and consume 32 bits from the front of the stack and parse them as a 32-bit signed integer
    * @returns The first 32 bits as a signed integer
+   * @throws Error if called with fewer than 32 bits remaining on the stack
    */
   readInt32(): number {
     return getInt(this.readBits(32));
@@ -105,6 +113,7 @@ export default class Unpacker {
   /**
    * Read and consume 32 bits from the front of the stack and parse them as a 32-bit float. Most Javascript numbers should be interpreted as 64-bit floats instead
    * @returns The first 32 bits as a float
+   * @throws Error if called with fewer than 32 bits remaining on the stack
    */
   readFloat32(): number {
     return getFloat(this.readBits(32));
@@ -113,6 +122,7 @@ export default class Unpacker {
   /**
    * Read and consume 64 bits from the front of the stack and parse them as a 64-bit float
    * @returns The first 64 bits as a float
+   * @throws Error if called with fewer than 64 bits remaining on the stack
    */
   readFloat64(): number {
     return getFloat(this.readBits(64));
@@ -122,6 +132,7 @@ export default class Unpacker {
    * Read and consume a specified number of bytes from the front of the stack, returning them as an array of 8-bit integers
    * @param n The number of bytes to return
    * @returns An array of bytes
+   * @throws Error if called with insufficient data remaining on the stack
    */
   readBytes(n: number): number[] {
     return Array.from({ length: n }, () => this.readUint8());
@@ -131,6 +142,7 @@ export default class Unpacker {
    * Get the first `n` bits from the front of the stack without consuming them
    * @param n The number of bits to retrieve
    * @returns An array of Bits (0s and 1s)
+   * @throws Error if fewer than `n` bytes remain on the stack
    */
   peek(n: number): Bit[] {
     while (this.bits.length < n) {

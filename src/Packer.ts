@@ -50,6 +50,7 @@ export default class Packer {
   /**
    * Add an 8-bit unsigned integer to the packer
    * @param num 8-bit unsigned interger to add to the packer
+   * @throws Error if `num` is out of bounds for `uint8`
    */
   putUint8(num: number): void {
     this.putBits(parseUint8(num));
@@ -58,6 +59,7 @@ export default class Packer {
   /**
    * Add a 16-bit unsigned integer to the packer
    * @param num 16-bit unsigned integer to add to the packer
+   * @throws Error if `num` is out of bounds for `uint16`
    */
   putUint16(num: number): void {
     this.putBits(parseUint16(num));
@@ -66,6 +68,7 @@ export default class Packer {
   /**
    * Add a 32-bit unsigned integer to the packer
    * @param num 32-bit unsigned integer to add to the packer
+   * @throws Error if `num` is out of bounds for `uint32`
    */
   putUint32(num: number): void {
     this.putBits(parseUint32(num));
@@ -74,6 +77,7 @@ export default class Packer {
   /**
    * Add an 8-bit signed integer to the packer
    * @param num 8-bit signed integer to add to the packer
+   * @throws Error if `num` is out of bounds for `int8`
    */
   putInt8(num: number): void {
     this.putBits(parseInt8(num));
@@ -82,6 +86,7 @@ export default class Packer {
   /**
    * Add a 16-bit signed integer to the packer
    * @param num 16-bit signed integer to add to the packer
+   * @throws Error if `num` is out of bounds for `int16`
    */
   putInt16(num: number): void {
     this.putBits(parseInt16(num));
@@ -90,6 +95,7 @@ export default class Packer {
   /**
    * Add a 32-bit signed integer to the packer
    * @param num 32-bit signed integer to add to the packer
+   * @throws Error if `num` is out of bounds for `int32`
    */
   putInt32(num: number): void {
     this.putBits(parseInt32(num));
@@ -98,6 +104,7 @@ export default class Packer {
   /**
    * Add a 32-bit float to the packer. Note that most Javascript number should be encoded as 64-bit floats.
    * @param num 32-bit float to add to the packer
+   * @throws Error if `num` is out of bounds for `float32`
    */
   putFloat32(num: number): void {
     this.putBits(parseFloat32(num));
@@ -128,7 +135,7 @@ export default class Packer {
   }
 
   /**
-   * Getr the data out of the packer as a Uint8Array. If the final byte is incomplete it is padded with 0s.
+   * Get the data out of the packer as a Uint8Array. If the final byte is incomplete it is padded with 0s.
    * @returns The data from the packer encoded as a Uint8Array
    */
   getBuffer(): Uint8Array {
