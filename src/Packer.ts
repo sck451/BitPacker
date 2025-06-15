@@ -10,6 +10,7 @@ import {
   parseUint32,
   parseUint8,
 } from "./bitMethods.ts";
+import { InvalidBitError } from "./Errors.ts";
 
 /**
  * Packs data into an array of numbers
@@ -21,8 +22,13 @@ export default class Packer {
   /**
    * Add a single bit to the packer
    * @param bit A Bit (0 or 1) to pack
+   * @throws InvalidBitError if bit is not 0 or 1
    */
   putBit(bit: Bit): void {
+    if (bit !== 0 && bit !== 1) {
+      throw new InvalidBitError(bit);
+    }
+
     this.bits.push(bit);
 
     if (this.bits.length === 8) {
@@ -34,6 +40,7 @@ export default class Packer {
   /**
    * Add multiple bits to the packer
    * @param bits The Bits (0s and 1s) to pack
+   * @throws InvalidBitError if any bit is not 0 or 1
    */
   putBits(bits: Bit[]): void {
     bits.forEach((bit) => this.putBit(bit));

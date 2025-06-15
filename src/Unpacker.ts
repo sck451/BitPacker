@@ -30,7 +30,7 @@ export default class Unpacker {
   /**
    * Read and consume a single bit from the front of the stack
    * @returns Bit, the 1 or 0 at the top of the stack
-   * @throws Error if called when no data remains
+   * @throws RangeError if called when no data remains
    */
   readBit(): Bit {
     if (this.bits.length === 0) {
@@ -40,7 +40,7 @@ export default class Unpacker {
     const bit = this.bits.shift();
 
     if (bit === undefined) {
-      throw new Error("Unexpected end of stream");
+      throw new RangeError("Unexpected end of stream");
     }
 
     return bit;

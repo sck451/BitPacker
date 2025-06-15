@@ -19,7 +19,7 @@ export function parseUint32(num: number): Bit[] {
 export function getInt(bits: Bit[]): number {
   const length = bits.length;
   if (length === 0) {
-    throw new Error("Empty bits array");
+    throw new RangeError("Empty bits array");
   }
 
   const signBit = bits[0];
