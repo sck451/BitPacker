@@ -155,4 +155,12 @@ export default class Unpacker {
 
     return this.bits.slice(0, n);
   }
+
+  /**
+   * Get the number of bits remaining in the Unpacker
+   * @returns The number of bits left to consume
+   */
+  remaining(): number {
+    return this.bits.length + this.bytes.length * 8;
+  }
 }

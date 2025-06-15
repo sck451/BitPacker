@@ -143,4 +143,12 @@ export default class Packer {
   getBuffer(): Uint8Array {
     return Uint8Array.from(this.getBytes());
   }
+
+  /**
+   * Get the size of the data in the Packer
+   * @returns the number of bits stored in the Packer
+   */
+  size(): number {
+    return this.bits.length + this.bytes.length * 8;
+  }
 }
