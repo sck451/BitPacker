@@ -1,5 +1,6 @@
 import { Packer, Unpacker } from "../main.ts";
 import { expect } from "@std/expect";
+import { InvalidBitError } from "../src/Errors.ts";
 
 Deno.test("put and read bits", () => {
   const packer = new Packer();
@@ -119,4 +120,41 @@ Deno.test("peek does not consume bits", () => {
 
   expect(peeked).toEqual([1, 0, 1, 0]);
   expect(unpacker.readBits(4)).toEqual([1, 0, 1, 0]);
+});
+
+Deno.test("input other than 0 or 1 to putBit throws", () => {
+  const packer = new Packer();
+  expect(() => {
+    // @ts-expect-error – testing invalid input intentionally
+    packer.putBit(2);
+  }).toThrow(InvalidBitError);
+});
+
+Deno.test("out of range input throws RangeError", () => {
+  const packer = new Packer();
+  expect(() => {
+    packer.putUint8(256);
+  }).toThrow(RangeError);
+});
+
+Deno.test("reading beyond stream length throws RangeError", () => {
+  const packer = new Packer();
+  packer.putUint8(127);
+
+  const unpacker = new Unpacker(packer.getBuffer());
+  unpacker.readUint8();
+  expect(() => {
+    unpacker.readUint8();
+  }).toThrow(RangeError);
+});
+
+Deno.test("Byte length should be correct when bit length is and is not aligned", () => {
+  const packer = new Packer();
+  packer.putUint8(127);
+  const unpacker = new Unpacker(packer.getBuffer());
+  expect(unpacker.remaining()).toBe(8);
+
+  packer.putBit(1);
+  const unpacker2 = new Unpacker(packer.getBuffer());
+  expect(unpacker2.remaining()).toBe(16);
 });
