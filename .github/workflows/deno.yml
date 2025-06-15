@@ -30,3 +30,9 @@ jobs:
 
       - name: Run tests
         run: deno test -A
+
+      - name: Dry run publish (optional)
+        run: deno publish --dry-run
+
+      - name: Publish to JSR
+        run: deno publish
