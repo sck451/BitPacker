@@ -129,9 +129,11 @@ export default class Packer {
       while (bits.length !== 8) {
         bits.push(0);
       }
+
+      this.bytes.push(getUint(bits));
     }
 
-    return [...this.bytes, getUint(bits)];
+    return [...this.bytes];
   }
 
   /**
