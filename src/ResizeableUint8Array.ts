@@ -1,7 +1,8 @@
 export default class ResizableUint8Array {
   #inner: Uint8Array;
-  #position: number = 0;
-  #size: number = 0;
+  #readPosition = 0;
+  #writePosition = 0;
+  #size = 0;
 
   constructor(length: number);
   constructor(initial: number[] | Uint8Array);
@@ -28,21 +29,21 @@ export default class ResizableUint8Array {
   }
 
   set(toAdd: number[]): void {
-    while (this.#inner.length < this.#position + toAdd.length) {
+    while (this.#inner.length < this.#writePosition + toAdd.length) {
       this.expand();
     }
 
-    this.#inner.set(toAdd, this.#position);
-    this.#position += toAdd.length;
-    this.#size = Math.max(this.#size, this.#position);
+    this.#inner.set(toAdd, this.#writePosition);
+    this.#writePosition += toAdd.length;
+    this.#size = this.#writePosition;
   }
 
   push(toAdd: number): void {
-    if (this.#inner.length === this.#position) {
+    if (this.#inner.length === this.#writePosition) {
       this.expand();
     }
 
-    this.#inner[this.#position++] = toAdd;
+    this.#inner[this.#writePosition++] = toAdd;
     this.#size++;
   }
 
@@ -55,16 +56,14 @@ export default class ResizableUint8Array {
   }
 
   shift(): number | undefined {
-    return this.#inner[this.#position++];
+    return this.#inner[this.#readPosition++];
   }
 
   get length(): number {
     return this.#size;
   }
 
-  *[Symbol.iterator]() {
-    for (let i = 0; i < this.#size; i++) {
-      yield this.#inner[i];
-    }
+  *[Symbol.iterator](): IterableIterator<number, void, unknown> {
+    yield* this.#inner.slice(0, this.#size);
   }
 }
