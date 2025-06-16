@@ -1,18 +1,19 @@
 import type { Bit } from "./Bit.ts";
 import { getFloat, getInt, getUint } from "./bitMethods.ts";
+import ResizableUint8Array from "./ResizeableUint8Array.ts";
 
 /**
  * Unpacks an array of u8 numbers.
  */
 export default class Unpacker {
   private readonly bits: Bit[] = [];
-  private readonly bytes: number[];
+  private readonly bytes: ResizableUint8Array;
 
   /**
    * @param bytes An array of u8 numbers or a Uint8Array to unpack
    */
   constructor(bytes: number[] | Uint8Array) {
-    this.bytes = [...bytes];
+    this.bytes = new ResizableUint8Array(bytes);
   }
 
   private unpackByte(): void {

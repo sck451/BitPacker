@@ -11,13 +11,21 @@ import {
   parseUint8,
 } from "./bitMethods.ts";
 import { InvalidBitError } from "./Errors.ts";
+import ResizableUint8Array from "./ResizeableUint8Array.ts";
+
+const DEFAULT_PACKER_LENGTH = 512;
 
 /**
  * Packs data into an array of numbers
  */
 export default class Packer {
-  private readonly bytes: number[] = [];
+  private readonly bytes: ResizableUint8Array;
   private readonly bits: Bit[] = [];
+
+  constructor(size?: number) {
+    size ??= DEFAULT_PACKER_LENGTH;
+    this.bytes = new ResizableUint8Array(size);
+  }
 
   /**
    * Add a single bit to the packer
