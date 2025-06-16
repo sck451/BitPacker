@@ -1,7 +1,7 @@
 {
   "name": "@sck/bitpacker",
   "exports": "./main.ts",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "lint": { "rules": { "tags": ["jsr"] } },
   "imports": {
