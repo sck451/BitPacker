@@ -135,10 +135,9 @@ export default class Packer {
   }
 
   /**
-   * Get the data out of the packer. If the final byte is incomplete it is padded with 0s.
-   * @returns The data from the packer encoded as an array of 8-bit unsigned integers
+   * Flush the array of bits to a byte, padding with 0s if needed.
    */
-  getBytes(): number[] {
+  private flushBits(): void {
     const bits: Bit[] = [...this.bits];
 
     if (bits.length % 8 !== 0) {
@@ -148,7 +147,14 @@ export default class Packer {
 
       this.bytes.push(getUint(bits));
     }
+  }
 
+  /**
+   * Get the data out of the packer. If the final byte is incomplete it is padded with 0s.
+   * @returns The data from the packer encoded as an array of 8-bit unsigned integers
+   */
+  getBytes(): number[] {
+    this.flushBits();
     return [...this.bytes];
   }
 
@@ -157,6 +163,7 @@ export default class Packer {
    * @returns The data from the packer encoded as a Uint8Array
    */
   getBuffer(): Uint8Array {
+    this.flushBits();
     return this.bytes.get();
   }
 
