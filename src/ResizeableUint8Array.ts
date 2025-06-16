@@ -1,6 +1,7 @@
 export default class ResizableUint8Array {
   #inner: Uint8Array;
   #position: number = 0;
+  #size: number = 0;
 
   constructor(length: number);
   constructor(initial: number[] | Uint8Array);
@@ -11,8 +12,10 @@ export default class ResizableUint8Array {
 
     if (arg instanceof Uint8Array) {
       this.#inner = new Uint8Array(arg);
+      this.#size = arg.length;
     } else if (Array.isArray(arg)) {
       this.#inner = new Uint8Array(arg);
+      this.#size = arg.length;
     } else {
       this.#inner = new Uint8Array(arg);
     }
@@ -31,6 +34,7 @@ export default class ResizableUint8Array {
 
     this.#inner.set(toAdd, this.#position);
     this.#position += toAdd.length;
+    this.#size = Math.max(this.#size, this.#position);
   }
 
   push(toAdd: number): void {
@@ -39,26 +43,27 @@ export default class ResizableUint8Array {
     }
 
     this.#inner[this.#position++] = toAdd;
+    this.#size++;
   }
 
   get(): Uint8Array {
-    return this.#inner.slice(0, this.#position);
+    return this.#inner.slice(0, this.#size);
   }
 
   toArray(): number[] {
     return [...this.get()];
   }
 
-  shift(): number {
+  shift(): number | undefined {
     return this.#inner[this.#position++];
   }
 
   get length(): number {
-    return this.#inner.length;
+    return this.#size;
   }
 
   *[Symbol.iterator]() {
-    for (let i = 0; i < this.#position; i++) {
+    for (let i = 0; i < this.#size; i++) {
       yield this.#inner[i];
     }
   }
