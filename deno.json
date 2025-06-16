@@ -5,6 +5,7 @@
   "license": "MIT",
   "lint": { "rules": { "tags": ["jsr"] } },
   "imports": {
-    "@std/expect": "jsr:@std/expect@1"
+    "@std/expect": "jsr:@std/expect@1",
+    "@std/fmt": "jsr:@std/fmt@^1.0.8"
   }
 }

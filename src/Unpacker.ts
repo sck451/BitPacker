@@ -1,5 +1,6 @@
 import type { Bit } from "./Bit.ts";
 import { getFloat, getInt, getUint } from "./bitMethods.ts";
+import { binDump, hexDump } from "./dump.ts";
 import ResizableUint8Array from "./ResizeableUint8Array.ts";
 
 /**
@@ -163,5 +164,19 @@ export default class Unpacker {
    */
   remaining(): number {
     return this.bits.length + this.bytes.length * 8;
+  }
+
+  /**
+   * Print a hex dump of the contents of the Unpacker to stdout
+   */
+  hexDump(): void {
+    hexDump(this.bytes.get());
+  }
+
+  /**
+   * Print a binary dump of the contents of the Unpacker to stdout
+   */
+  binDump(): void {
+    binDump(this.bytes.get());
   }
 }

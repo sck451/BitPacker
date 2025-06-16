@@ -10,6 +10,7 @@ import {
   parseUint32,
   parseUint8,
 } from "./bitMethods.ts";
+import { binDump, hexDump } from "./dump.ts";
 import { InvalidBitError } from "./Errors.ts";
 import ResizableUint8Array from "./ResizeableUint8Array.ts";
 
@@ -165,5 +166,19 @@ export default class Packer {
    */
   size(): number {
     return this.bits.length + this.bytes.length * 8;
+  }
+
+  /**
+   * Print a hex dump of the contents of the Packer to stdout
+   */
+  hexDump(): void {
+    hexDump(this.getBuffer());
+  }
+
+  /**
+   * Print a binary dump of the contents of the Packer to stdout
+   */
+  binDump(): void {
+    binDump(this.getBuffer());
   }
 }
