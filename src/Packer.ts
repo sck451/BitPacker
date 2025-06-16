@@ -157,7 +157,7 @@ export default class Packer {
    * @returns The data from the packer encoded as a Uint8Array
    */
   getBuffer(): Uint8Array {
-    return Uint8Array.from(this.getBytes());
+    return this.bytes.get();
   }
 
   /**
@@ -172,13 +172,13 @@ export default class Packer {
    * Print a hex dump of the contents of the Packer to stdout
    */
   hexDump(): void {
-    hexDump(this.getBuffer());
+    hexDump(this.bytes.get());
   }
 
   /**
    * Print a binary dump of the contents of the Packer to stdout
    */
   binDump(): void {
-    binDump(this.getBuffer());
+    binDump(this.bytes.get());
   }
 }
