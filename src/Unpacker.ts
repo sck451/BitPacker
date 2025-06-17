@@ -1,7 +1,7 @@
 import type { Bit } from "./Bit.ts";
 import { getFloat, getInt, getUint } from "./bitMethods.ts";
 import { binDump, hexDump } from "./dump.ts";
-import ResizableUint8Array from "./ResizeableUint8Array.ts";
+import ResizableUint8Array from "./ResizableUint8Array.ts";
 
 /**
  * Unpacks an array of u8 numbers.

@@ -12,7 +12,7 @@ import {
 } from "./bitMethods.ts";
 import { binDump, hexDump } from "./dump.ts";
 import { InvalidBitError } from "./Errors.ts";
-import ResizableUint8Array from "./ResizeableUint8Array.ts";
+import ResizableUint8Array from "./ResizableUint8Array.ts";
 
 const DEFAULT_PACKER_LENGTH = 512;
 
