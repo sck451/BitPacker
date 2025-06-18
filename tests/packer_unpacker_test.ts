@@ -1,7 +1,7 @@
 import { Packer, Unpacker } from "../main.ts";
 import { expect } from "@std/expect";
 import { InvalidBitError } from "../src/Errors.ts";
-import { assertSpyCalls, spy } from "@std/testing/mock";
+import { spy } from "@std/testing/mock";
 
 Deno.test("put and read bits", () => {
   const packer = new Packer();
