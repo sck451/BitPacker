@@ -199,7 +199,7 @@ export default class ResizableUint8Array {
    */
   *[Symbol.iterator](): IterableIterator<number> {
     while (this.#readPosition < this.#writePosition) {
-      yield this.#inner[this.#readPosition++];
+      yield this.#inner[this.#readPosition++]!; // definitely not null
     }
   }
 

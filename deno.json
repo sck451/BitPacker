@@ -7,5 +7,13 @@
   "imports": {
     "@std/expect": "jsr:@std/expect@1",
     "@std/fmt": "jsr:@std/fmt@^1.0.8"
+  },
+  "compilerOptions": {
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true
   }
 }
