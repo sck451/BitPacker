@@ -35,31 +35,37 @@ import { Packer, Unpacker } from "@sck/bitpacker";
 
 ### Packing data
 
-    const packer = new Packer();
+```ts
+const packer = new Packer();
 
-    packer.putBit(1);
-    packer.putBits([0, 1, 0]);
-    packer.putUint8(255);
-    packer.putInt16(-1234);
-    packer.putFloat32(Math.PI);
-    packer.putBytes([1, 2, 3]);
+packer.putBit(1);
+packer.putBits([0, 1, 0]);
+packer.putUint8(255);
+packer.putInt16(-1234);
+packer.putFloat32(Math.PI);
+packer.putBytes([1, 2, 3]);
 
-    const buffer = packer.getBuffer(); // Uint8Array
+const buffer = packer.getBuffer(); // Uint8Array
+```
 
 ### Unpacking data
 
-    const unpacker = new Unpacker(buffer);
+```ts
+const unpacker = new Unpacker(buffer);
 
-    const bit = unpacker.readBit();        // 1
-    const bits = unpacker.readBits(3);     // [0, 1, 0]
-    const u8 = unpacker.readUint8();       // 255
-    const i16 = unpacker.readInt16();      // -1234
-    const pi = unpacker.readFloat32();     // ~3.14159
-    const bytes = unpacker.readBytes(3);   // [1, 2, 3]
+const bit = unpacker.readBit(); // 1
+const bits = unpacker.readBits(3); // [0, 1, 0]
+const u8 = unpacker.readUint8(); // 255
+const i16 = unpacker.readInt16(); // -1234
+const pi = unpacker.readFloat32(); // ~3.14159
+const bytes = unpacker.readBytes(3); // [1, 2, 3]
+```
 
 ### Peeking at future data without consuming
 
-    const bits = unpacker.peek(4); // preview next 4 bits without advancing
+```ts
+const bits = unpacker.peek(4); // preview next 4 bits without advancing
+```
 
 ## API
 
