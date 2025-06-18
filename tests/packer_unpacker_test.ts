@@ -1,6 +1,7 @@
 import { Packer, Unpacker } from "../main.ts";
 import { expect } from "@std/expect";
 import { InvalidBitError } from "../src/Errors.ts";
+import { assertSpyCalls, spy } from "@std/testing/mock";
 
 Deno.test("put and read bits", () => {
   const packer = new Packer();
@@ -157,4 +158,38 @@ Deno.test("Byte length should be correct when bit length is and is not aligned",
   packer.putBit(1);
   const unpacker2 = new Unpacker(packer.getBuffer());
   expect(unpacker2.remaining()).toBe(16);
+});
+
+Deno.test("getBytes should get the correct data even if bits not aligned", () => {
+  const packer = new Packer();
+  packer.putUint8(127);
+
+  expect(packer.getBytes()).toEqual([127]);
+  packer.putBits([0, 0, 1, 0]);
+  expect(packer.getBytes()).toEqual([32]);
+});
+
+Deno.test("size() should get an accurate size", () => {
+  const packer = new Packer();
+
+  packer.putInt16(1000);
+  expect(packer.size()).toBe(16);
+  packer.putBits([0, 0, 0, 0]);
+  expect(packer.size()).toBe(20);
+});
+
+Deno.test("Packer#binDump and Packer#hexDump should print to the console", () => {
+  const logSpy = spy(console, "log");
+
+  const packer = new Packer();
+  packer.putBytes([127, 255, 0, 1]);
+
+  packer.hexDump();
+  const soFar = logSpy.calls.length;
+  expect(soFar).toBeGreaterThan(0);
+
+  packer.binDump();
+  expect(logSpy.calls.length).toBeGreaterThan(soFar);
+
+  logSpy.restore();
 });
